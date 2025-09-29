@@ -50,7 +50,11 @@ class BiometricPromptManager(
     fun showBiometricPrompt(title: String, description: String){
         val biometricManager = BiometricManager.from(activity)
 
-        when (biometricManager.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_STRONG)){
+        when (biometricManager.canAuthenticate(
+            BiometricManager.Authenticators.BIOMETRIC_STRONG
+                or BiometricManager.Authenticators.BIOMETRIC_WEAK
+            or BiometricManager.Authenticators.DEVICE_CREDENTIAL
+        )){
             BiometricManager.BIOMETRIC_SUCCESS -> {
                 Log.d(TAG, "App can authenticate using biometrics.")
                 // Biometrics are available, proceed to show the prompt
@@ -87,15 +91,17 @@ class BiometricPromptManager(
     private fun createPromptInfo(title: String, description: String): PromptInfo {
             return PromptInfo.Builder()
                 .setTitle(title)
-                .setSubtitle("Confirm your indentity")
+                .setSubtitle("Confirm your identity")
                 .setDescription(description)
-                .setAllowedAuthenticators(BiometricManager.Authenticators.BIOMETRIC_STRONG)
-                .setNegativeButtonText("Cancel")
+                .setAllowedAuthenticators(
+                    BiometricManager.Authenticators.BIOMETRIC_STRONG
+                            or BiometricManager.Authenticators.BIOMETRIC_WEAK
+                    or BiometricManager.Authenticators.DEVICE_CREDENTIAL
+                )
+
                 .build()
     }
-    /**
-     * Creates the BiometricPrompt instance with the required callbacks.
-     */
+
     private fun createBiometricPrompt(): BiometricPrompt {
         val executor = activity.mainExecutor
 
