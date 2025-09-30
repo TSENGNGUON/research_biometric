@@ -49,6 +49,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation("com.google.firebase:firebase-firestore-ktx:24.8.1")
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -57,4 +58,15 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation("androidx.biometric:biometric:1.2.0-alpha05")
+
+
+    // dependencies for qr scan
+    implementation("androidx.camera:camera-camera2:1.3.0-alpha04")
+// Or latest version
+    implementation("androidx.camera:camera-lifecycle:1.3.0-alpha04")
+// Or latest version
+    implementation("androidx.camera:camera-view:1.3.0-alpha04")
+// Or latest version
+    implementation("com.google.mlkit:barcode-scanning:17.0.3")
+// Or latest version
 }

@@ -73,6 +73,7 @@ fun BiometricScreen(
     var authMessage by remember { mutableStateOf("Ready to authenticate.") }
     val context = LocalContext.current
 
+
     //Collect the authentication results Flow
     LaunchedEffect(manager) {
         manager.authResult.collect { result ->

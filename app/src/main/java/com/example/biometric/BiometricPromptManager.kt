@@ -1,5 +1,7 @@
 package com.example.biometric
 
+import android.content.Intent
+import android.provider.Settings
 import android.util.Log
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
@@ -77,6 +79,8 @@ class BiometricPromptManager(
                 Log.e(TAG, message)
                 listener.onBiometricNotAvailable(message)
                 resultChannel.trySend(BiometricAuthResult.NotAvailable(message))
+
+                promptUserToEnroll()
             }
 
             else -> {
@@ -132,4 +136,23 @@ class BiometricPromptManager(
         // BiometricPrompt requires a FragmentActivity (or AppCompatActivity) and an AuthenticationCallback
         return BiometricPrompt(activity, executor, callback)
     }
+
+    //NEW FUNCTION to handle redirection
+    private fun promptUserToEnroll () {
+        // Use the Settings Intent to take the user to the security setting
+        val enrollIntent = Intent(Settings.ACTION_SECURITY_SETTINGS)
+
+        try {
+            activity.startActivity(enrollIntent)
+            Log.d(TAG, "Redirecting user to Security Settings for enrollment.")
+        }catch (e: Exception){
+            // Handle case where security settings Intent might not resolve (very rare)
+            Log.e(TAG,"Could not open security settings: ${e.message}")
+
+            //Fallback main setting screen
+            activity.startActivity(Intent(Settings.ACTION_SETTINGS))
+
+        }
+    }
 }
+
